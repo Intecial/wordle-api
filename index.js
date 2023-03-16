@@ -4,7 +4,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 const app = express()
-
+app.use( express.json())
 
 const words = []
 
@@ -16,8 +16,6 @@ const pages = [
         address: "https://www.thefreedictionary.com/5-letter-words-2.htm"
     }
 ]
-
-app.use( express.json())
 
 pages.forEach((page) => {
     axios.get(page.address)
@@ -38,13 +36,13 @@ pages.forEach((page) => {
 })
 
 app.get('/all-word', (req, res) => {
-    res.status(200).send(res.json(words))
+    res.json(words)
 })
 
 app.get('/word', (req, res) => {
     const index = Math.floor(Math.random() * words.length);
 
-    res.status(200).send(res.json(words[index]))
+    res.json(words[index])
 })
 
 app.post('/exist', (req, res) =>{
@@ -55,7 +53,7 @@ app.post('/exist', (req, res) =>{
             results.exist = true
         }
     }
-    res.status(200).send(res.json(results))
+    res.json(results)
 })
 
 app.post('/solve', (req, res) => {
@@ -90,7 +88,7 @@ app.post('/solve', (req, res) => {
         }
         results.push(obj)
     }
-    res.status(200).send(res.json(results))
+    res.json(results)
 
 })
 
